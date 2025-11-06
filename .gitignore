@@ -1,0 +1,11 @@
+bin/
+obj/
+*/bin/
+*/obj/
+*.user
+*.suo
+*.swp
+*.DS_Store
+.vs/
+.idea/
+*.db
