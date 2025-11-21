@@ -7,5 +7,6 @@ obj/
 *.swp
 *.DS_Store
 .vs/
+.vscode/
 .idea/
 *.db
