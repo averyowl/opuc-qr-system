@@ -1,10 +1,14 @@
 ﻿/*
-    Hunter Gambee-Iddings
-    Natalya Langford
-    Nathan Waggoner
-    Philip Grazhdan
-    Sean McCoy
-    Wenkang Yu Zhen
+    Authoring team: 
+    Hunter Gambee-Iddings - SE
+    Jacob Purvis - Team Lead
+    Natalya Langford - SE
+    Nathan Waggoner - SE
+    Philip Grazhdan - SE
+    Sean McCoy - SE
+    Wenkang Yu Zhen - SE
+
+    Author: Sean McCoy
 */
 
 using Microsoft.Extensions.Configuration;
