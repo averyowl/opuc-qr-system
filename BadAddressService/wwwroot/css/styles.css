@@ -1,0 +1,167 @@
+/*
+// ---------------- you can manage your media queries here ---------------- //
+
+375px               Phone-M
+
+375px - 425px       Phone-L
+
+425px - 600px:      Phone
+
+600px - 900px:      Tablet Portrait
+
+900px - 1200px:     Tablet Landscape
+
+1200px - 1800px:    Normal Styles
+
+1800px +:           Large Desktop
+
+*/
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* higher */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* final position */
+  }
+}
+.fade-down {
+  opacity: 0;
+  transform: translateY(-10px); /* start slightly above */
+  animation: fadeDown 0.55s ease-out forwards;
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+@media only screen and (min-width: 75em) {
+  html {
+    font-size: 50.25%;
+  }
+}
+@media only screen and (min-width: 56.25em) {
+  html {
+    font-size: 60%;
+  }
+}
+@media only screen and (min-width: 112.5em) {
+  html {
+    font-size: 69%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.page {
+  width: 100%;
+  background-color: #fafbfb;
+  background-repeat: repeat;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.root {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #4D4D4D;
+  background-color: #fafafa;
+}
+
+h1 {
+  font-size: 2.55rem;
+  color: #487B00;
+  font-weight: 600;
+}
+
+h2 {
+  color: #487B00;
+}
+
+h3 {
+  color: #3E6B00;
+  width: 100%;
+  font-weight: 600;
+}
+
+h4 {
+  width: 100%;
+  font-size: 2.35rem;
+}
+
+h5 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+h6 {
+  font-size: 2.75rem;
+}
+
+p {
+  font-size: 1.4rem;
+}
+
+.primary-btn {
+  width: 100%;
+  font-size: 1.45rem;
+  padding: 1.25rem 0;
+  font-weight: 600;
+  background-color: #487B00;
+  border: 1px solid #2e6da4;
+  color: white;
+}
+
+.primary-btn:hover {
+  background-color: #3275b1;
+  opacity: 10px;
+}
+
+.header {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 15px solid #01569b;
+}
+.header__left-logo {
+  width: 150px;
+  height: 8rem;
+  display: block;
+}
+
+.content {
+  margin-top: 2rem;
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+}
+
+.confirmation {
+  margin-bottom: 2rem;
+}
+
+/*# sourceMappingURL=styles.css.map */
