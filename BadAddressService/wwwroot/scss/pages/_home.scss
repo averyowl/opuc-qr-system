@@ -1,11 +1,38 @@
-.content{
-     margin-top: 2rem;
-    background-color: #f2f2f2;
-    border-radius: 1rem;
-    border: 1px solid #ccc;
+.application {
+  width: 100%; 
+  min-width: 100%;
+  
+
+      @include respond(tab-port) {
+        width: 90%;
+    }
+
+    @include respond(big-desktop) {
+        width: 70%;
+    }
+    &__content {
+        margin-top: 2rem;
+       
+
+        &-message{
+            width: 100%;
+            padding: 2rem;
+             background-color: #f2f2f2;
+        border-radius: 1rem;
+        border: 1px solid #ccc;
+            
+        }
+
+        &-confirmation
+        {
+            width: 100%;
+            padding: 2rem;
+            margin: 0;
+             background-color: #f2f2f2;
+        border-radius: 1rem;
+        border: 1px solid #ccc;
+        }
+    }
     
 }
-
-.confirmation{
-    margin-bottom: 2rem;
-}
+   

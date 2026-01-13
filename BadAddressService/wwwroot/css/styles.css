@@ -124,7 +124,7 @@ h6 {
 }
 
 p {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
 
 .primary-btn {
@@ -153,15 +153,37 @@ p {
   display: block;
 }
 
-.content {
+.application {
+  width: 100%;
+  min-width: 100%;
+}
+@media only screen and (min-width: 56.25em) {
+  .application {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 112.5em) {
+  .application {
+    width: 70%;
+  }
+}
+.application__content {
   margin-top: 2rem;
+}
+.application__content-message {
+  width: 100%;
+  padding: 2rem;
   background-color: #f2f2f2;
   border-radius: 1rem;
   border: 1px solid #ccc;
 }
-
-.confirmation {
-  margin-bottom: 2rem;
+.application__content-confirmation {
+  width: 100%;
+  padding: 2rem;
+  margin: 0;
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
 }
 
 /*# sourceMappingURL=styles.css.map */

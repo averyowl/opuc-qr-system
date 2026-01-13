@@ -7,31 +7,33 @@
     Wenkang Yu Zhen
 -->
 @page "/bad-address/{CustomerId:int}"
-
-<div class="confirmation">
-    <h1>Confirmation</h1>
-    <div class="confirmation__box">
-        <p>If this information matches the envelope, click or tap the button below.</p>
-        <div class="confirmation__box-section">
-            <p class="confirmation__box-text"><strong>Customer name:</strong> </p>
-            <p>@customerName</p>
+<div class="application">
+    <div class="application__content">
+        <div class="application__content-confirmation">
+            <h1>Confirmation</h1>
+            <p>If this information matches the envelope, click or tap the button below.</p>
+            <div class="confirmation__box-section">
+                <p class="confirmation__box-text"><strong>Customer name:</strong> </p>
+                <p>@customerName</p>
+            </div>
+            <div class="confirmation__box-section">
+                <p class="confirmation__box-text"><strong>Customer ID:</strong></p>
+                <p>@CustomerId</p>
+            </div>
+            <div class="confirmation__box-section">
+                <p class="confirmation__box-text"><strong>Customer address:</strong></p>
+                <p>@customerAddress</p>
+            </div>
+            <div class="confirmation__box-section">
+                <p class="confirmation__box-text"><strong>Bad Address:</strong></p>
+                <p class="@(badAddress ? "text-success" : "text-danger")">@badAddress</p>
+            </div>
+            <button class="btn primary-btn" @onclick="HandleInvalidAddress">Invalidate customer address.</button>
         </div>
-        <div class="confirmation__box-section">
-            <p class="confirmation__box-text"><strong>Customer ID:</strong></p>
-            <p>@CustomerId</p>
-        </div>
-        <div class="confirmation__box-section">
-            <p class="confirmation__box-text"><strong>Customer address:</strong></p>
-            <p>@customerAddress</p>
-        </div>
-        <div class="confirmation__box-section">
-            <p class="confirmation__box-text"><strong>Bad Address:</strong></p>
-            <p>@badAddress</p>
-        </div>
-        <button class="btn primary-btn" @onclick="HandleInvalidAddress">Invalidate customer address.</button>
+        <!--for testing-->
+        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+        </NavLink>
     </div>
-    <!--for testing-->
-    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-    </NavLink>
+
 </div>
