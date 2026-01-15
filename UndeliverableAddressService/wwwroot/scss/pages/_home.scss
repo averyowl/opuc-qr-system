@@ -41,8 +41,19 @@
     justify-content: center;
     padding: 2rem;
     margin-top: 2rem;
-    
    
+    &__box > form {
+        display: flex;
+        flex-direction: column;
+    
+    }
+
+    @include respond(tab-port) {
+        &__box > form {
+        flex-direction: row;
+        align-items: flex-start;
+        }
+    }
 
     &__box {
        

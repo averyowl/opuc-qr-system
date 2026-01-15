@@ -16,72 +16,76 @@
 
 <div class="row">
     <div class="row__box">
-        <div class="row__box-left">
-            <h1>Log in</h1>
-            <section>
 
-                <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
-                    <DataAnnotationsValidator />
-                    <h2>Use a local account to log in.</h2>
-                    <hr />
-                    <ValidationSummary class="text-danger" role="alert" />
-                    <div class=" mb-3">
-                        <label for="Input.Email" class="form-label row__box-label">Email</label>
-                        <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control row__input"
-                            autocomplete="username webauthn" aria-required="true" placeholder="name@example.com" />
+        <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
+            <DataAnnotationsValidator />
 
-                        <ValidationMessage For="() => Input.Email" class="text-danger" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="Input.Password" class="form-label row__box-label">Password</label>
-                        <InputText type="password" @bind-Value="Input.Password" id="Input.Password"
-                            class="form-control row__input" autocomplete="current-password" aria-required="true"
-                            placeholder="password" />
-                        <ValidationMessage For="() => Input.Password" class="text-danger" />
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </div>
-                    <div class="checkbox mb-3">
-                        <label class="form-label row__box-label">
-                            <InputCheckbox @bind-Value="Input.RememberMe"
-                                class="darker-border-checkbox form-check-input" />
-                            Remember me
-                        </label>
-                    </div>
-                    <div>
-                        <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                    </div>
-                    <StatusMessage Message="@errorMessage" />
-                    <hr />
-                    <div>
+            <div class="row__box-left">
+                <h1>Log in</h1>
+                <h2>Use a local account to log in.</h2>
+                <hr />
+                <ValidationSummary class="text-danger" role="alert" />
+                <div class=" mb-3">
+                    <label for="Input.Email" class="form-label row__box-label">Email</label>
+                    <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control row__input"
+                        autocomplete="username webauthn" aria-required="true" placeholder="name@example.com" />
 
-                        <p>
-                            <a
-                                href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register
-                                as a new user</a>
-                        </p>
-                        <p>
-                            <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                        </p>
-                    </div>
-                </EditForm>
-            </section>
-        </div>
-        <div class="row__box-right">
-            <div class="row__box-right--i">
-                <section>
-                    <h3>Use another service to log in.</h3>
-                    <hr />
-                    <ExternalLoginPicker />
-                </section>
+                    <ValidationMessage For="() => Input.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="Input.Password" class="form-label row__box-label">Password</label>
+                    <InputText type="password" @bind-Value="Input.Password" id="Input.Password"
+                        class="form-control row__input" autocomplete="current-password" aria-required="true"
+                        placeholder="password" />
+                    <ValidationMessage For="() => Input.Password" class="text-danger" />
+                    <a href="Account/ForgotPassword">Forgot your password?</a>
+                </div>
+                <div class="checkbox mb-3">
+                    <label class="form-label row__box-label">
+                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
+                        Remember me
+                    </label>
+                </div>
+                <div>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <StatusMessage Message="@errorMessage" />
+                <hr />
+                <div>
+
+                    <p>
+                        <a
+                            href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register
+                            as a new user</a>
+                    </p>
+                    <p>
+                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+
             </div>
-            <hr />
-            <div class="d-flex flex-column">
-                <span class="text-secondary mx-auto mt-2 row__box-right--span">OR</span>
-                <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email"
-                    class="btn btn-link mx-auto"><span class="row__box-right--span">Log in with a passkey</span>
-                </PasskeySubmit>
+
+            <div class="row__box-right">
+                <div class="row__box-right--i">
+                    <section>
+                        <h3>Use another service to log in.</h3>
+                        <hr />
+                        <ExternalLoginPicker />
+                    </section>
+                </div>
+                <hr />
+                <div class="d-flex flex-column">
+
+                    <span class="text-secondary mx-auto mt-2 row__box-right--span">OR</span>
+                    <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email"
+                        class="btn btn-link mx-auto">Log in with a passkey
+                    </PasskeySubmit>
+
+                </div>
             </div>
-        </div>
+        </EditForm>
+
+
     </div>
 </div>
 

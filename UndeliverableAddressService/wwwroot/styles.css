@@ -192,6 +192,16 @@ p {
   padding: 2rem;
   margin-top: 2rem;
 }
+.row__box > form {
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 56.25em) {
+  .row__box > form {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
 .row__box {
   display: flex;
   flex-direction: column;
