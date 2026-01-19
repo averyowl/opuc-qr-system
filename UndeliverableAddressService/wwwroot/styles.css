@@ -73,7 +73,6 @@ body {
   background-size: contain;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .root {
@@ -125,6 +124,7 @@ h6 {
 
 p {
   font-size: 1.6rem;
+  margin-bottom: 0.1rem;
 }
 
 .primary-btn {
@@ -133,13 +133,14 @@ p {
   padding: 1.25rem 0;
   font-weight: 600;
   background-color: #487B00;
-  border: 1px solid #2e6da4;
-  color: white;
+  border: 1px solid #e0e0e0;
+  color: #ffffff;
 }
 
 .primary-btn:hover {
-  background-color: #3275b1;
+  background-color: #01569b;
   opacity: 10px;
+  color: white;
 }
 
 .header {
@@ -152,19 +153,28 @@ p {
   height: 8rem;
   display: block;
 }
+@media only screen and (min-width: 56.25em) {
+  .header__left-logo {
+    width: 150px;
+  }
+}
 
 .application {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+.application h1 {
   width: 100%;
-  min-width: 100%;
+  max-width: 600px;
+  text-align: left;
+  margin-bottom: 1rem;
 }
 @media only screen and (min-width: 56.25em) {
   .application {
-    width: 90%;
-  }
-}
-@media only screen and (min-width: 112.5em) {
-  .application {
-    width: 70%;
+    width: 100%;
   }
 }
 .application__content {
@@ -176,6 +186,7 @@ p {
   background-color: #f2f2f2;
   border-radius: 1rem;
   border: 1px solid #ccc;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 .application__content-confirmation {
   width: 100%;
@@ -184,6 +195,40 @@ p {
   background-color: #f2f2f2;
   border-radius: 1rem;
   border: 1px solid #ccc;
+}
+.application__reset {
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  width: 100%;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+}
+@media only screen and (min-width: 56.25em) {
+  .application__reset {
+    flex-direction: row;
+    width: 80%;
+    max-width: 600px;
+  }
+}
+@media only screen and (min-width: 56.25em) {
+  .application__reset-box {
+    flex-direction: row;
+    width: 100%;
+    max-width: 900px;
+  }
+}
+.application__reset-label {
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: #4D4D4D;
+}
+.application__input {
+  width: 100%;
+  font-size: 1.55rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #6E6E6E;
+  transition: border-color 0.2s ease;
 }
 
 .row {
@@ -208,13 +253,13 @@ p {
   border-radius: 20px;
   padding: 20px;
   background-color: #f2f2f2;
-  border: 1px solid rgb(173, 173, 173);
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 @media only screen and (min-width: 56.25em) {
   .row__box {
     flex-direction: row;
     width: 80%;
-    max-width: 900px;
+    max-width: 1000px;
   }
 }
 @media only screen and (min-width: 56.25em) {
@@ -244,11 +289,20 @@ p {
   font-size: 1.55rem;
 }
 .row__box-label {
-  font-size: 1.55rem;
+  font-size: 1.45rem;
+  font-weight: bold;
+  color: #4D4D4D;
+}
+.row__box-label-check {
+  font-size: 1.2rem;
+}
+.row__box-options {
+  font-size: 1.4rem;
+  margin-bottom: 0px;
 }
 .row__input {
   width: 100%;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
   border: 1px solid #6E6E6E;

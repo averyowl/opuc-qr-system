@@ -1,26 +1,32 @@
 .application {
-  width: 100%; 
-  min-width: 100%;
-  
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    padding: 2rem;
+    margin-top: 2rem;
 
-    @include respond(tab-port) {
-        width: 90%;
+    h1 {
+        width: 100%;
+        max-width: 600px;  
+        text-align: left;  
+        margin-bottom: 1rem;
     }
 
-    @include respond(big-desktop) {
-        width: 70%;
+     @include respond(tab-port) {
+        width: 100%;
     }
+
     &__content {
         margin-top: 2rem;
        
-
+        
         &-message{
             width: 100%;
             padding: 2rem;
-             background-color: #f2f2f2;
-        border-radius: 1rem;
-        border: 1px solid #ccc;
-            
+            background-color: #f2f2f2;
+            border-radius: 1rem;
+            border: 1px solid #ccc;
+             box-shadow:  0 10px 10px 0 rgba(0, 0, 0, 0.2);
         }
 
         &-confirmation
@@ -28,11 +34,52 @@
             width: 100%;
             padding: 2rem;
             margin: 0;
-             background-color: #f2f2f2;
-        border-radius: 1rem;
-        border: 1px solid #ccc;
+            background-color: #f2f2f2;
+            border-radius: 1rem;
+            border: 1px solid #ccc;
+        }
+
+       
+    }
+
+    &__reset{
+       
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        width: 100%;
+        box-shadow:  0 10px 10px 0 rgba(0, 0, 0, 0.2);
+
+         @include respond(tab-port){
+            flex-direction: row;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        &-box{
+        @include respond(tab-port){
+            flex-direction: row;
+            width: 100%;
+            max-width: 900px;
+        }
+        }
+        &-label{
+            font-size: 1.45rem;
+            font-weight: bold;
+            color: $color-grey;
         }
     }
+
+    &__input {
+        width: 100%;
+        font-size: 1.55rem;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #6E6E6E;
+        transition: border-color 0.2s ease;
+       
+    }
+     
     
 }
    
@@ -62,21 +109,22 @@
         border-radius: 20px;
         padding: 20px;
         background-color: #f2f2f2;
-        border: 1px solid rgb(173, 173, 173);
+        box-shadow:  0 10px 10px 0 rgba(0, 0, 0, 0.2);
+       
         
         @include respond(tab-port){
             flex-direction: row;
             width: 80%;
-            max-width: 900px;
+            max-width: 1000px;
         }
 
         &-left
         {
         
            @include respond(tab-port){
-            flex: 50%;
-            padding: 2rem;
-            justify-content: start;
+                flex: 50%;
+                padding: 2rem;
+                justify-content: start;
            }
             
         }
@@ -105,13 +153,24 @@
 
         }
         &-label{
-            font-size: 1.55rem;
+            font-size: 1.45rem;
+            font-weight: bold;
+            color: $color-grey;
+
+            &-check{
+                 font-size: 1.2rem;
+            }
+        }
+
+        &-options{
+            font-size: 1.4rem;
+            margin-bottom: 0px;
         }
     }
 
     &__input {
         width: 100%;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         padding: 1rem 1.5rem;
         border-radius: 0.5rem;
         border: 1px solid #6E6E6E;

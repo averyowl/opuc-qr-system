@@ -1,7 +1,6 @@
 .header {
     
     width: 100%;
-
     background-color: $color-white;
     border-bottom: 15px solid $color-blue-opuc;
 
@@ -9,9 +8,12 @@
 
         &-logo {
             width: 150px;
-            
             height: 8rem;
             display: block;
+
+            @include respond(tab-port) {
+                width: 150px;
+            }
         }
     }
 

@@ -6,11 +6,12 @@
   padding: 1.25rem 0;
   font-weight: 600;
   background-color: #487B00;
-  border: 1px solid #2e6da4;
-  color: white;
+  border: 1px solid #e0e0e0;
+  color: #ffffff;
 }
 
 .primary-btn:hover{
-     background-color: #3275b1;
+     background-color: $color-blue-opuc;
      opacity: 10px;
+     color: white;
 }

@@ -37,29 +37,29 @@
                     <InputText type="password" @bind-Value="Input.Password" id="Input.Password"
                         class="form-control row__input" autocomplete="current-password" aria-required="true"
                         placeholder="password" />
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                    <a href="Account/ForgotPassword">Forgot your password?</a>
+                    <ValidationMessage For="() => Input.Password" class="text-danger " />
+                    <a class="row__box-options" href="Account/ForgotPassword">Forgot your password?</a>
                 </div>
                 <div class="checkbox mb-3">
-                    <label class="form-label row__box-label">
+                    <label class="form-label row__box-label-check">
                         <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
                         Remember me
                     </label>
                 </div>
                 <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <button type="submit" class="w-100 btn btn-lg primary-btn mb-3">Log in</button>
                 </div>
                 <StatusMessage Message="@errorMessage" />
                 <hr />
                 <div>
 
                     <p>
-                        <a
+                        <a class="row__box-options"
                             href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register
                             as a new user</a>
                     </p>
                     <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
+                        <a class="row__box-options" href="Account/ResendEmailConfirmation">Resend email confirmation</a>
                     </p>
                 </div>
 
@@ -78,7 +78,7 @@
 
                     <span class="text-secondary mx-auto mt-2 row__box-right--span">OR</span>
                     <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email"
-                        class="btn btn-link mx-auto">Log in with a passkey
+                        class="btn btn-link mx-auto row__box-options">Log in with a passkey
                     </PasskeySubmit>
 
                 </div>
