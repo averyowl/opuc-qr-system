@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.WebUtilities
+@page "/qr-service"
+@inject NavigationManager Navigation
+
+<h3>QR Scan Result</h3>
+
+@if (!string.IsNullOrEmpty(ErrorMessage)) {
+    <div class="alert alert-danger">@ErrorMessage</div>
+}
+else if (!string.IsNullOrEmpty(UserId)) {
+    <div class="alert alert-success">
+        User ID extracted: @UserId
+        <!-- Now you can use this ID to fetch user data, etc. -->
+    </div>
+}
+
+@code {
+    private string? UserId { get; set; }
+    private string? ErrorMessage { get; set; }
+
+    protected override void OnInitialized() {
+        try {
+
+            var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+            var query = QueryHelpers.ParseQuery(uri.Query);
+
+            // Example URL: http://localhost:5000/qr-service/?id=123
+            if (query.TryGetValue("uid", out var uidValues))
+                UserId = uidValues.FirstOrDefault();
+            else if (query.TryGetValue("userId", out var userIdValues))
+                UserId = userIdValues.FirstOrDefault();
+            else if (query.TryGetValue("id", out var idValues))
+                UserId = idValues.FirstOrDefault();
+            else
+                ErrorMessage = "No user ID found in the QR code URL.";
+
+            // Validate the extracted ID
+            if (string.IsNullOrEmpty(UserId))
+                ErrorMessage = "User ID is empty or invalid.";
+        }
+        catch (Exception ex) {
+            ErrorMessage = $"Error processing QR code: {ex.Message}";
+        }
+    }
+}
+
