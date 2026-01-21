@@ -7,36 +7,49 @@
 @if (!string.IsNullOrEmpty(ErrorMessage)) {
     <div class="alert alert-danger">@ErrorMessage</div>
 }
-else if (!string.IsNullOrEmpty(UserId)) {
+else if (RecipientId.HasValue)
+{
     <div class="alert alert-success">
-        User ID extracted: @UserId
+        Program: @ProgramType<br/>
+        Recipient ID: @RecipientId
         <!-- Now you can use this ID to fetch user data, etc. -->
     </div>
 }
 
 @code {
-    private string? UserId { get; set; }
+    private int? RecipientId { get; set; }
+    private RecipientSource? ProgramType { get; set; }
     private string? ErrorMessage { get; set; }
+
+    private enum RecipientSource
+    {
+        OTAP,
+        TDAP
+    }
 
     protected override void OnInitialized() {
         try {
+            // Example URL: http://localhost:5000/qr-service/?id=123&program=OTAP
 
             var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
             var query = QueryHelpers.ParseQuery(uri.Query);
 
-            // Example URL: http://localhost:5000/qr-service/?id=123
-            if (query.TryGetValue("uid", out var uidValues))
-                UserId = uidValues.FirstOrDefault();
-            else if (query.TryGetValue("userId", out var userIdValues))
-                UserId = userIdValues.FirstOrDefault();
-            else if (query.TryGetValue("id", out var idValues))
-                UserId = idValues.FirstOrDefault();
-            else
-                ErrorMessage = "No user ID found in the QR code URL.";
+            if (!query.TryGetValue("program", out var programValue) || 
+                !Enum.TryParse<RecipientSource>(programValue, true, out var program))
+            {
+                ErrorMessage = "Program type is empty or invalid (OTAP/TDAP).";
+                return;
+            }
 
-            // Validate the extracted ID
-            if (string.IsNullOrEmpty(UserId))
-                ErrorMessage = "User ID is empty or invalid.";
+            if (!query.TryGetValue("id", out var idValue) || 
+                !int.TryParse(idValue.FirstOrDefault(), out var recipientId))
+            {
+                ErrorMessage = "Recipient ID is empty or invalid.";
+                return;
+            }
+
+            ProgramType = program;
+            RecipientId = recipientId;
         }
         catch (Exception ex) {
             ErrorMessage = $"Error processing QR code: {ex.Message}";
