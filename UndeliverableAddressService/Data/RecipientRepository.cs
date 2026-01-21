@@ -2,14 +2,7 @@ using Dapper;
 using UndeliverableAddressService.Models;
 namespace UndeliverableAddressService.Data;
 
-public enum RecipientSource
-{
-    OTAP,
-    TDAP
-}
-
-
-public class RecipientRepository
+public class RecipientRepository : IRecipientRepository
 {
     private sealed record RecipientTables(
         string AddressTable,
@@ -30,7 +23,7 @@ public class RecipientRepository
     /// <returns>Returns Recipient object or null if no match</returns>
     public async Task<Recipient?> GetTdapRecipientById(int recipientId)
     {
-        return await getRecipientByIdHelperAsync(recipientId, RecipientSource.TDAP);
+        return await GetRecipientByIDAndSource(recipientId, RecipientSource.TDAP);
     }
     
     /// <summary>
@@ -40,18 +33,18 @@ public class RecipientRepository
     /// <returns>Returns Recipient object or null if no match</returns>
     public async Task<Recipient?> GetOtapRecipientById(int recipientId)
     {
-        return await getRecipientByIdHelperAsync(recipientId, RecipientSource.OTAP);
+        return await GetRecipientByIDAndSource(recipientId, RecipientSource.OTAP);
     }
 
     /// <summary>
-    /// Helper function for querying PUC database
+    /// Selects matching recipientId participating in the specified program
     /// </summary>
     /// <param name="recpientId">Integer ID</param>
     /// <param name="source">RecipientSource enum indicating TDAP or OTAP recipient</param>
     /// <returns>Returns Recipient object or null if no match</returns>
-    private async Task<Recipient?> getRecipientByIdHelperAsync(int recipientId, RecipientSource source)
+    public async Task<Recipient?> GetRecipientByIDAndSource(int recipientId, RecipientSource source)
     {
-        var tables = GetRecipientTables(source);
+        var tables = getRecipientTables(source);
         string sql = $"""
             select
                 t.RecipientId,
@@ -93,7 +86,7 @@ public class RecipientRepository
     /// </summary>
     /// <param name="source">RecipientSource enum indicating TDAP or OTAP recipient</param>
     /// <returns>RecipientTables object containing the AddressTable and RecipientTable for their respective programs (OTAP/TDAP)</returns>
-    private static RecipientTables GetRecipientTables(RecipientSource source) =>
+    private static RecipientTables getRecipientTables(RecipientSource source) =>
         source switch
         {
             RecipientSource.OTAP => new RecipientTables(

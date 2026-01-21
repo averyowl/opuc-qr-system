@@ -1,6 +1,10 @@
 ﻿@using Microsoft.AspNetCore.WebUtilities
+@using UndeliverableAddressService.Data
+@using UndeliverableAddressService.Models
+@using global::UndeliverableAddressService.Models
 @page "/qr-service"
 @inject NavigationManager Navigation
+@inject IRecipientRepository RecipientRepository
 
 <h3>QR Scan Result</h3>
 
@@ -9,25 +13,30 @@
 }
 else if (RecipientId.HasValue && ProgramType.HasValue)
 {
-    <div class="alert alert-success">
-        Program: @ProgramType<br/>
-        Recipient ID: @RecipientId
-        <!-- Now you can use this ID to fetch user data, etc. -->
-    </div>
+    @if (RecipientInfo is not null)
+    {
+        <div class="alert alert-success">
+            Program: @ProgramType<br/>
+            Recipient ID: @RecipientId<br/>
+            Name: @RecipientInfo.FirstName @RecipientInfo.MiddleName @RecipientInfo.LastName<br/>
+            Address: @RecipientInfo.AddressLine1, @RecipientInfo.City, @RecipientInfo.StateCode @RecipientInfo.ZIPCode<br/>
+            Bad Address: @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">@ProgramType recipient id @RecipientId not found.</div>
+    }
 }
 
 @code {
     private int? RecipientId { get; set; }
     private RecipientSource? ProgramType { get; set; }
     private string? ErrorMessage { get; set; }
+    private Recipient? RecipientInfo { get; set; }
 
-    private enum RecipientSource
-    {
-        OTAP,
-        TDAP
-    }
 
-    protected override void OnInitialized() {
+    protected override async Task OnInitializedAsync() {
         try {
             // Example URL: http://localhost:5000/qr-service/?id=123&program=OTAP
 
@@ -35,7 +44,7 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
             var query = QueryHelpers.ParseQuery(uri.Query);
 
             if (!query.TryGetValue("program", out var programValue) || 
-                !Enum.TryParse<RecipientSource>(programValue, true, out var program))
+                !Enum.TryParse<RecipientSource>(programValue.FirstOrDefault(), true, out var program))
             {
                 ErrorMessage = "Program type is empty or invalid (OTAP/TDAP).";
                 return;
@@ -50,6 +59,7 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
 
             ProgramType = program;
             RecipientId = recipientId;
+            RecipientInfo = await RecipientRepository.GetRecipientByIDAndSource(recipientId, program);
         }
         catch (Exception ex) {
             ErrorMessage = $"Error processing QR code: {ex.Message}";
