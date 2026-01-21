@@ -55,7 +55,7 @@ public class RecipientRepository : IRecipientRepository
                 tc.txtDescription City,
                 a.StateCode,
                 tcz.ZIPCode,
-                a.flgBadAddress isBadAddress
+                a.flgBadAddress FlagBadAddress
             from {tables.AddressTable} a
             left join {tables.RecipientTable} t
                 on a.RecipientID = t.RecipientId
