@@ -7,7 +7,7 @@
 @if (!string.IsNullOrEmpty(ErrorMessage)) {
     <div class="alert alert-danger">@ErrorMessage</div>
 }
-else if (RecipientId.HasValue)
+else if (RecipientId.HasValue && ProgramType.HasValue)
 {
     <div class="alert alert-success">
         Program: @ProgramType<br/>
