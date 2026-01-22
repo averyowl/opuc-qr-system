@@ -9,5 +9,5 @@ public class Recipient
     public string City { get; init; } = string.Empty;
     public string StateCode { get; init; } = string.Empty;
     public string ZIPCode { get; init; } = string.Empty;
-    public int isBadAddress { get; init; }
+    public int FlagBadAddress { get; init; }
 }

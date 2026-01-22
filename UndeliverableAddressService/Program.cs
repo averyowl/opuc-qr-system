@@ -27,6 +27,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddScoped<IDbConnectionFactory>(_ => 
+    new SqlConnectionFactory(connectionString));
+
+builder.Services.AddScoped<IRecipientRepository, RecipientRepository>();
+
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;

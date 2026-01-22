@@ -1,42 +1,65 @@
 ﻿@using Microsoft.AspNetCore.WebUtilities
+@using UndeliverableAddressService.Data
+@using UndeliverableAddressService.Models
+@using UndeliverableAddressService.Models
 @page "/qr-service"
 @inject NavigationManager Navigation
+@inject IRecipientRepository RecipientRepository
 
 <h3>QR Scan Result</h3>
 
 @if (!string.IsNullOrEmpty(ErrorMessage)) {
     <div class="alert alert-danger">@ErrorMessage</div>
 }
-else if (!string.IsNullOrEmpty(UserId)) {
-    <div class="alert alert-success">
-        User ID extracted: @UserId
-        <!-- Now you can use this ID to fetch user data, etc. -->
-    </div>
+else if (RecipientId.HasValue && ProgramType.HasValue)
+{
+    @if (RecipientInfo is not null)
+    {
+        <div class="alert alert-success">
+            Program: @ProgramType<br/>
+            Recipient ID: @RecipientId<br/>
+            Name: @RecipientInfo.FirstName @RecipientInfo.MiddleName @RecipientInfo.LastName<br/>
+            Address: @RecipientInfo.AddressLine1, @RecipientInfo.City, @RecipientInfo.StateCode @RecipientInfo.ZIPCode<br/>
+            Bad Address: @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">@ProgramType recipient id @RecipientId not found.</div>
+    }
 }
 
 @code {
-    private string? UserId { get; set; }
+    private int? RecipientId { get; set; }
+    private RecipientSource? ProgramType { get; set; }
     private string? ErrorMessage { get; set; }
+    private Recipient? RecipientInfo { get; set; }
 
-    protected override void OnInitialized() {
+
+    protected override async Task OnInitializedAsync() {
         try {
+            // Example URL: http://localhost:5000/qr-service/?id=123&program=OTAP
 
             var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
             var query = QueryHelpers.ParseQuery(uri.Query);
 
-            // Example URL: http://localhost:5000/qr-service/?id=123
-            if (query.TryGetValue("uid", out var uidValues))
-                UserId = uidValues.FirstOrDefault();
-            else if (query.TryGetValue("userId", out var userIdValues))
-                UserId = userIdValues.FirstOrDefault();
-            else if (query.TryGetValue("id", out var idValues))
-                UserId = idValues.FirstOrDefault();
-            else
-                ErrorMessage = "No user ID found in the QR code URL.";
+            if (!query.TryGetValue("program", out var programValue) || 
+                !Enum.TryParse<RecipientSource>(programValue.FirstOrDefault(), true, out var program))
+            {
+                ErrorMessage = "Program type is empty or invalid (OTAP/TDAP).";
+                return;
+            }
 
-            // Validate the extracted ID
-            if (string.IsNullOrEmpty(UserId))
-                ErrorMessage = "User ID is empty or invalid.";
+            if (!query.TryGetValue("id", out var idValue) || 
+                !int.TryParse(idValue.FirstOrDefault(), out var recipientId))
+            {
+                ErrorMessage = "Recipient ID is empty or invalid.";
+                return;
+            }
+
+            ProgramType = program;
+            RecipientId = recipientId;
+            RecipientInfo = await RecipientRepository.GetRecipientByIDAndSource(recipientId, program);
         }
         catch (Exception ex) {
             ErrorMessage = $"Error processing QR code: {ex.Message}";
