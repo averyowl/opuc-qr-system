@@ -143,6 +143,22 @@ p {
   color: white;
 }
 
+.secondary-btn {
+  width: 100%;
+  font-size: 1.45rem;
+  padding: 1.25rem 0;
+  font-weight: 600;
+  background-color: #f3f1f1;
+  border: 3px solid #01569b;
+  color: #01569b;
+}
+
+.secondary-btn:hover {
+  background-color: #01569b;
+  opacity: 10px;
+  color: white;
+}
+
 .header {
   width: 100%;
   background-color: #fff;
@@ -167,41 +183,110 @@ p {
   margin-top: 2rem;
 }
 .application h1 {
-  width: 100%;
+  width: 85%;
   max-width: 600px;
   text-align: left;
   margin-bottom: 1rem;
+  border-bottom: 0.2rem solid #dadada;
+  padding-bottom: 1rem;
+  font-size: 3rem;
+}
+.application__header h2 {
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+}
+.application__header p {
+  font-size: 1.6rem;
+  margin-top: 1rem;
+}
+.application__header {
+  width: 85%;
+  max-width: 600px;
+  text-align: left;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+@media only screen and (min-width: 56.25em) {
+  .application__header h2 {
+    font-weight: bold;
+    font-size: 2.4rem;
+  }
+  .application__header p {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
 }
 @media only screen and (min-width: 56.25em) {
   .application {
     width: 100%;
   }
 }
-.application__content {
-  margin-top: 2rem;
-}
-.application__content-message {
-  width: 100%;
-  padding: 2rem;
+.application__confirmation {
+  border-radius: 10px;
+  padding: 20px;
   background-color: #f2f2f2;
-  border-radius: 1rem;
-  border: 1px solid #ccc;
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+  width: 85%;
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
 }
-.application__content-confirmation {
-  width: 100%;
-  padding: 2rem;
-  margin: 0;
-  background-color: #f2f2f2;
-  border-radius: 1rem;
-  border: 1px solid #ccc;
+@media only screen and (min-width: 56.25em) {
+  .application__confirmation {
+    flex-direction: row;
+    width: 100%;
+    max-width: 600px;
+  }
+}
+.application__confirmation-label {
+  font-size: 1.55rem;
+  font-weight: bold;
+  color: #487B00;
+}
+@media only screen and (min-width: 56.25em) {
+  .application__confirmation-label {
+    font-size: 1.85rem;
+    font-weight: bold;
+    color: #487B00;
+  }
+}
+.application__confirmation-value {
+  font-size: 1.55rem;
+}
+@media only screen and (min-width: 56.25em) {
+  .application__confirmation-value {
+    padding-left: 10px;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #4D4D4D;
+  }
+}
+.application__warning {
+  margin-top: 50px;
+  background-color: #fff3cd;
+  border: 2px solid #836f00;
+  border-radius: 5px;
+}
+.application__warning-message {
+  padding: 20px;
+  font-size: 1.55rem;
+  color: #836f00;
+}
+.application__alert {
+  margin-top: 50px;
+  background-color: #ffcdcd;
+  border: 2px solid #bb0000;
+  border-radius: 5px;
+}
+.application__alert-message {
+  padding: 20px;
+  font-size: 1.55rem;
+  color: #bb0000;
 }
 .application__reset {
   border-radius: 10px;
   padding: 20px;
   background-color: #f2f2f2;
   width: 100%;
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
 }
 @media only screen and (min-width: 56.25em) {
   .application__reset {
@@ -229,6 +314,25 @@ p {
   border-radius: 0.5rem;
   border: 1px solid #6E6E6E;
   transition: border-color 0.2s ease;
+}
+.application__content {
+  margin-top: 2rem;
+}
+.application__content-message {
+  width: 100%;
+  padding: 2rem;
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+.application__content-confirmation {
+  width: 100%;
+  padding: 2rem;
+  margin: 0;
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
 }
 
 .row {

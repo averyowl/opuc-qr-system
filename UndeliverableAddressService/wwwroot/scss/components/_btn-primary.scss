@@ -15,3 +15,20 @@
      opacity: 10px;
      color: white;
 }
+
+
+.secondary-btn{
+  width: 100%;
+  font-size: 1.45rem;
+  padding: 1.25rem 0;
+  font-weight: 600;
+  background-color: #f3f1f1;
+  border: 3px solid $color-blue-opuc;
+  color: $color-blue-opuc;
+}
+
+.secondary-btn:hover{
+     background-color: $color-blue-opuc;
+     opacity: 10px;
+     color: white;
+}

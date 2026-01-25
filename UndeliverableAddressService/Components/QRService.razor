@@ -1,34 +1,93 @@
 ﻿@using Microsoft.AspNetCore.WebUtilities
 @using UndeliverableAddressService.Data
 @using UndeliverableAddressService.Models
-@using UndeliverableAddressService.Models
 @page "/qr-service"
 @inject NavigationManager Navigation
 @inject IRecipientRepository RecipientRepository
 
-<h3>QR Scan Result</h3>
+<div class="application">
 
-@if (!string.IsNullOrEmpty(ErrorMessage)) {
-    <div class="alert alert-danger">@ErrorMessage</div>
-}
-else if (RecipientId.HasValue && ProgramType.HasValue)
-{
-    @if (RecipientInfo is not null)
+
+    <h1>QR Scan Result</h1>
+
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="alert alert-success">
-            Program: @ProgramType<br/>
-            Recipient ID: @RecipientId<br/>
-            Name: @RecipientInfo.FirstName @RecipientInfo.MiddleName @RecipientInfo.LastName<br/>
-            Address: @RecipientInfo.AddressLine1, @RecipientInfo.City, @RecipientInfo.StateCode @RecipientInfo.ZIPCode<br/>
-            Bad Address: @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
+        <div class="application__alert" role="alert">
+            <p class="application__alert-message"> @ErrorMessage</p>
         </div>
     }
-    else
+    else if (RecipientId.HasValue && ProgramType.HasValue)
     {
-        <div class="alert alert-warning">@ProgramType recipient id @RecipientId not found.</div>
-    }
-}
+        @if (RecipientInfo is not null)
 
+        {
+
+
+            <header class="application__header">
+                <h2>Confirmation</h2>
+                <p>
+                    Please verify that the information below matches the envelope.
+                    If everything looks correct, continue below.
+                </p>
+            </header>
+
+
+            <div class="application__confirmation">
+                <div class="application__confirmation-box">
+                    <dl>
+                        <dt class="application__confirmation-label">Program</dt>
+                        <dd class="application__confirmation-value">@ProgramType</dd>
+
+                        <dt class="application__confirmation-label">Recipient ID</dt>
+                        <dd class="application__confirmation-value">@RecipientId</dd>
+
+                        <dt class="application__confirmation-label">Name</dt>
+                        <dd class="application__confirmation-value">
+                            @RecipientInfo.FirstName
+                            @RecipientInfo.MiddleName
+                            @RecipientInfo.LastName
+                        </dd>
+
+                        <dt class="application__confirmation-label">Address</dt>
+                        <dd class="application__confirmation-value">
+                            @RecipientInfo.AddressLine1,
+                            @RecipientInfo.City,
+                            @RecipientInfo.StateCode
+                            @RecipientInfo.ZIPCode
+                        </dd>
+
+                        <dt class="application__confirmation-label">Bad Address</dt>
+                        <dd
+                            class="application__confirmation-value  @(RecipientInfo.FlagBadAddress == 1 ? "text-success" : "text-danger")">
+                            @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="confirmation__actions mt-5">
+                <button type="button" class="primary-btn btn btn-lg mt-">
+                    Invalidate Customer Address
+                </button>
+                <button type="button" class="secondary-btn btn btn-lg mt-3">
+                    Cancel
+                </button>
+            </div>
+
+
+
+
+        }
+        else
+        {
+            <div class="application__warning" role="alert">
+
+                <p class="application__warning-message"> @ProgramType recipient ID @RecipientId was not found.</p>
+            </div>
+        }
+    }
+</div>
 @code {
     private int? RecipientId { get; set; }
     private RecipientSource? ProgramType { get; set; }
@@ -36,22 +95,24 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
     private Recipient? RecipientInfo { get; set; }
 
 
-    protected override async Task OnInitializedAsync() {
-        try {
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
             // Example URL: http://localhost:5000/qr-service/?id=123&program=OTAP
 
             var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
             var query = QueryHelpers.ParseQuery(uri.Query);
 
-            if (!query.TryGetValue("program", out var programValue) || 
-                !Enum.TryParse<RecipientSource>(programValue.FirstOrDefault(), true, out var program))
+            if (!query.TryGetValue("program", out var programValue) ||
+            !Enum.TryParse<RecipientSource>(programValue.FirstOrDefault(), true, out var program))
             {
                 ErrorMessage = "Program type is empty or invalid (OTAP/TDAP).";
                 return;
             }
 
-            if (!query.TryGetValue("id", out var idValue) || 
-                !int.TryParse(idValue.FirstOrDefault(), out var recipientId))
+            if (!query.TryGetValue("id", out var idValue) ||
+            !int.TryParse(idValue.FirstOrDefault(), out var recipientId))
             {
                 ErrorMessage = "Recipient ID is empty or invalid.";
                 return;
@@ -61,9 +122,9 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
             RecipientId = recipientId;
             RecipientInfo = await RecipientRepository.GetRecipientByIDAndSource(recipientId, program);
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             ErrorMessage = $"Error processing QR code: {ex.Message}";
         }
     }
 }
-
