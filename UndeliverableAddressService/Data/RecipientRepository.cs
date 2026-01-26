@@ -44,7 +44,20 @@ public class RecipientRepository : IRecipientRepository
     /// <returns>Returns Recipient object or null if no match</returns>
     public async Task<Recipient?> GetRecipientByIDAndSource(int recipientId, RecipientSource source)
     {
-        var tables = getRecipientTables(source);
+        var tables = source switch
+        {
+            RecipientSource.OTAP => new RecipientTables(
+                AddressTable: "PUC.dbo.tblOTAPRecipientAddress",
+                RecipientTable: "PUC.dbo.tblOTAPRecipient"
+            ),
+
+            RecipientSource.TDAP => new RecipientTables(
+                AddressTable: "PUC.dbo.tblTDAPRecipientAddress",
+                RecipientTable: "PUC.dbo.tblTDAPRecipient"
+            ),
+
+            _ => throw new ArgumentOutOfRangeException(nameof(source))
+        };
         string sql = $"""
             select
                 t.RecipientId,
@@ -82,23 +95,52 @@ public class RecipientRepository : IRecipientRepository
     }
     
     /// <summary>
-    /// Helper function distinguishing RecipientSource enum. 
+    /// Inserts a new event for the recipient into the appropriate event table
     /// </summary>
+    /// <param name="recipientId">Recipient ID</param>
     /// <param name="source">RecipientSource enum indicating TDAP or OTAP recipient</param>
-    /// <returns>RecipientTables object containing the AddressTable and RecipientTable for their respective programs (OTAP/TDAP)</returns>
-    private static RecipientTables getRecipientTables(RecipientSource source) =>
-        source switch
+    /// <param name="eventTypeCode">4-character event type code</param>
+    /// <param name="note">Optional note for the event</param>
+    /// <param name="updatedBy">User who created the event</param>
+    /// <returns>True if insert succeeded, false otherwise</returns>
+    public async Task<bool> InsertRecipientEvent(int recipientId, RecipientSource source, string eventTypeCode, string note, string updatedBy)
+    {
+        string eventTable = source switch
         {
-            RecipientSource.OTAP => new RecipientTables(
-                AddressTable: "PUC.dbo.tblOTAPRecipientAddress",
-                RecipientTable: "PUC.dbo.tblOTAPRecipient"
-            ),
-
-            RecipientSource.TDAP => new RecipientTables(
-                AddressTable: "PUC.dbo.tblTDAPRecipientAddress",
-                RecipientTable: "PUC.dbo.tblTDAPRecipient"
-            ),
-
+            RecipientSource.OTAP => "PUC.dbo.tblOTAPRecipientEvent",
+            RecipientSource.TDAP => "PUC.dbo.tblTDAPRecipientEvent",
             _ => throw new ArgumentOutOfRangeException(nameof(source))
         };
+
+        string getSequenceSql = $"SELECT ISNULL(MAX(numSequence), 0) + 1 FROM {eventTable} WHERE RecipientId = @RecipientId";
+        
+        string insertSql = $"""
+            INSERT INTO {eventTable} 
+                (RecipientId, numSequence, EventTypeCode, memNote, datEventDate, txtLastUpdatedBy, datLastUpdatedOn)
+            VALUES 
+                (@RecipientId, @Sequence, @EventTypeCode, @Note, CURRENT_TIMESTAMP, @UpdatedBy, CURRENT_TIMESTAMP)
+        """;
+
+        using var connection = _connectionFactory.CreateConnection();
+        try
+        {
+            var sequence = await connection.QuerySingleAsync<int>(getSequenceSql, new { RecipientId = recipientId });
+            
+            var rowsAffected = await connection.ExecuteAsync(insertSql, new
+            {
+                RecipientId = recipientId,
+                Sequence = sequence,
+                EventTypeCode = eventTypeCode,
+                Note = note,
+                UpdatedBy = updatedBy,
+            });
+
+            return rowsAffected > 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error inserting recipient event: {ex.Message}");
+            return false;
+        }
+    }
 }

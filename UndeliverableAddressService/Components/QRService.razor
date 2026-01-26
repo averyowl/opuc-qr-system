@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.AspNetCore.Components.Web
 @using UndeliverableAddressService.Data
 @using UndeliverableAddressService.Models
-@using UndeliverableAddressService.Models
 @page "/qrs" // aka qr-service
+@rendermode InteractiveServer
 @inject NavigationManager Navigation
 @inject IRecipientRepository RecipientRepository
 
@@ -22,7 +23,11 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
             Address: @RecipientInfo.AddressLine1, @RecipientInfo.City, @RecipientInfo.StateCode @RecipientInfo.ZIPCode<br/>
             Bad Address: @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
         </div>
-        <button class="btn btn-primary" @onclick="InvalidateRecipient">Invalidate Recipient Address</button>
+        <button class="btn btn-primary" @onclick="InvalidateRecipient" disabled="@IsProcessing">@ButtonText</button>
+        @if (!string.IsNullOrEmpty(ActionMessage))
+        {
+            <div class="alert alert-info mt-2">@ActionMessage</div>
+        }
     }
     else
     {
@@ -35,6 +40,9 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
     private RecipientSource? ProgramType { get; set; }
     private string? ErrorMessage { get; set; }
     private Recipient? RecipientInfo { get; set; }
+    private bool IsProcessing { get; set; }
+    private string ButtonText => IsProcessing ? "Processing..." : "Invalidate Recipient Address";
+    private string? ActionMessage { get; set; }
 
 
     protected override async Task OnInitializedAsync() {
@@ -67,9 +75,41 @@ else if (RecipientId.HasValue && ProgramType.HasValue)
         }
     }
 
-    private void InvalidateRecipient()
+    private async Task InvalidateRecipient()
     {
-        return;
+        if (!RecipientId.HasValue || !ProgramType.HasValue)
+        {
+            Console.WriteLine("RecipientId or ProgramType is not set.");
+            return;
+        }
+
+        IsProcessing = true;
+        ActionMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            var success = await RecipientRepository.InsertRecipientEvent(
+                recipientId: RecipientId.Value,
+                source: ProgramType.Value,
+                eventTypeCode: "UNDL",
+                note: $"Address invalidated via QR Service.",
+                updatedBy: "QR-SERVICE"
+            );
+
+            ActionMessage = success 
+                ? "Recipient address successfully invalidated." 
+                : "Failed to invalidate recipient address. Please try again.";
+        }
+        catch (Exception ex)
+        {
+            ActionMessage = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            IsProcessing = false;
+            StateHasChanged();
+        }
     }
 }
 
