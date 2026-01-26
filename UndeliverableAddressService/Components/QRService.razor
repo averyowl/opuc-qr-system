@@ -36,20 +36,20 @@
             <div class="application__confirmation">
                 <div class="application__confirmation-box">
                     <dl>
-                        <dt class="application__confirmation-label">Program</dt>
+                        <dt class="application__confirmation-label">Program:</dt>
                         <dd class="application__confirmation-value">@ProgramType</dd>
 
-                        <dt class="application__confirmation-label">Recipient ID</dt>
+                        <dt class="application__confirmation-label">Recipient ID:</dt>
                         <dd class="application__confirmation-value">@RecipientId</dd>
 
-                        <dt class="application__confirmation-label">Name</dt>
+                        <dt class="application__confirmation-label">Name:</dt>
                         <dd class="application__confirmation-value">
                             @RecipientInfo.FirstName
                             @RecipientInfo.MiddleName
                             @RecipientInfo.LastName
                         </dd>
 
-                        <dt class="application__confirmation-label">Address</dt>
+                        <dt class="application__confirmation-label">Address:</dt>
                         <dd class="application__confirmation-value">
                             @RecipientInfo.AddressLine1,
                             @RecipientInfo.City,
@@ -57,12 +57,12 @@
                             @RecipientInfo.ZIPCode
                         </dd>
 
-                        <dt class="application__confirmation-label">Bad Address</dt>
-                        <dd
+                    </dl>
+                    <p class="application__confirmation-label">Bad Address: <span
                             class="application__confirmation-value  @(RecipientInfo.FlagBadAddress == 1 ? "text-success" : "text-danger")">
                             @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
-                        </dd>
-                    </dl>
+                        </span></p>
+
                 </div>
             </div>
 

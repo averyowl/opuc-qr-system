@@ -191,6 +191,13 @@ p {
   padding-bottom: 1rem;
   font-size: 3rem;
 }
+.application__header {
+  width: 85%;
+  max-width: 600px;
+  text-align: left;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
 .application__header h2 {
   font-weight: bold;
   font-size: 2rem;
@@ -200,20 +207,13 @@ p {
   font-size: 1.6rem;
   margin-top: 1rem;
 }
-.application__header {
-  width: 85%;
-  max-width: 600px;
-  text-align: left;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
 @media only screen and (min-width: 56.25em) {
   .application__header h2 {
     font-weight: bold;
     font-size: 2.4rem;
   }
   .application__header p {
-    font-size: 2rem;
+    font-size: 1.9rem;
     margin-top: 1rem;
   }
 }
@@ -239,13 +239,12 @@ p {
 .application__confirmation-label {
   font-size: 1.55rem;
   font-weight: bold;
-  color: #487B00;
+  color: #335700;
 }
 @media only screen and (min-width: 56.25em) {
   .application__confirmation-label {
     font-size: 1.85rem;
     font-weight: bold;
-    color: #487B00;
   }
 }
 .application__confirmation-value {
@@ -255,7 +254,6 @@ p {
   .application__confirmation-value {
     padding-left: 10px;
     font-size: 1.7rem;
-    font-weight: bold;
     color: #4D4D4D;
   }
 }
