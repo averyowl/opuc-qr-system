@@ -1,20 +1,20 @@
 ﻿@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.AspNetCore.Components.Web
 @using UndeliverableAddressService.Data
 @using UndeliverableAddressService.Models
-@page "/qr-service"
+@page "/qrs" // aka qr-service
+@rendermode InteractiveServer
 @inject NavigationManager Navigation
 @inject IRecipientRepository RecipientRepository
 
 <div class="application">
 
-
     <h1>QR Scan Result</h1>
-
 
     @if (!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="application__alert" role="alert">
-            <p class="application__alert-message"> @ErrorMessage</p>
+        <div class="application__danger" role="alert">
+            <p class="application__danger-message"> @ErrorMessage</p>
         </div>
     }
     else if (RecipientId.HasValue && ProgramType.HasValue)
@@ -22,8 +22,6 @@
         @if (RecipientInfo is not null)
 
         {
-
-
             <header class="application__header">
                 <h2>Confirmation</h2>
                 <p>
@@ -58,26 +56,26 @@
                         </dd>
 
                     </dl>
-                    <p class="application__confirmation-label">Bad Address: <span
+                    <span class="application__confirmation-label">Bad Address: <span
                             class="application__confirmation-value  @(RecipientInfo.FlagBadAddress == 1 ? "text-success" : "text-danger")">
                             @(RecipientInfo.FlagBadAddress == 1 ? "Yes" : "No")
-                        </span></p>
-
+                        </span></span>
                 </div>
             </div>
 
             <div class="confirmation__actions mt-5">
-                <button type="button" class="primary-btn btn btn-lg mt-">
-                    Invalidate Customer Address
-                </button>
+                <button type="button" class="primary-btn btn btn-lg mt-3" @onclick="InvalidateRecipient"
+                    disabled="@IsProcessing">@ButtonText</button>
                 <button type="button" class="secondary-btn btn btn-lg mt-3">
                     Cancel
                 </button>
             </div>
-
-
-
-
+            @if (!string.IsNullOrEmpty(ActionMessage))
+            {
+                <div class="application__alert  mt-4">
+                    <p class="application__alert-message">@ActionMessage</p>
+                </div>
+            }
         }
         else
         {
@@ -93,19 +91,22 @@
     private RecipientSource? ProgramType { get; set; }
     private string? ErrorMessage { get; set; }
     private Recipient? RecipientInfo { get; set; }
+    private bool IsProcessing { get; set; }
+    private string ButtonText => IsProcessing ? "Processing..." : "Invalidate Recipient Address";
+    private string? ActionMessage { get; set; }
 
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // Example URL: http://localhost:5000/qr-service/?id=123&program=OTAP
+            // Example URL: http://localhost:5000/qr-service/?id=123&prog=OTAP
 
             var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
             var query = QueryHelpers.ParseQuery(uri.Query);
 
-            if (!query.TryGetValue("program", out var programValue) ||
-            !Enum.TryParse<RecipientSource>(programValue.FirstOrDefault(), true, out var program))
+            if (!query.TryGetValue("prog", out var programValue) ||
+            !Enum.TryParse<RecipientSource>(programValue.FirstOrDefault(), true, out var prog))
             {
                 ErrorMessage = "Program type is empty or invalid (OTAP/TDAP).";
                 return;
@@ -118,13 +119,50 @@
                 return;
             }
 
-            ProgramType = program;
+            ProgramType = prog;
             RecipientId = recipientId;
-            RecipientInfo = await RecipientRepository.GetRecipientByIDAndSource(recipientId, program);
+            RecipientInfo = await RecipientRepository.GetRecipientByIDAndSource(recipientId, prog);
         }
         catch (Exception ex)
         {
             ErrorMessage = $"Error processing QR code: {ex.Message}";
+        }
+    }
+
+    private async Task InvalidateRecipient()
+    {
+        if (!RecipientId.HasValue || !ProgramType.HasValue)
+        {
+            Console.WriteLine("RecipientId or ProgramType is not set.");
+            return;
+        }
+
+        IsProcessing = true;
+        ActionMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            var success = await RecipientRepository.InsertRecipientEvent(
+            recipientId: RecipientId.Value,
+            source: ProgramType.Value,
+            eventTypeCode: "UNDL",
+            note: $"Address invalidated via QR Service.",
+            updatedBy: "QR-SERVICE"
+            );
+
+            ActionMessage = success
+            ? "Recipient address successfully invalidated."
+            : "Failed to invalidate recipient address. Please try again.";
+        }
+        catch (Exception ex)
+        {
+            ActionMessage = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            IsProcessing = false;
+            StateHasChanged();
         }
     }
 }

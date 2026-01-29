@@ -268,16 +268,27 @@ p {
   font-size: 1.55rem;
   color: #836f00;
 }
-.application__alert {
+.application__danger {
   margin-top: 50px;
   background-color: #ffcdcd;
   border: 2px solid #bb0000;
   border-radius: 5px;
 }
-.application__alert-message {
+.application__danger-message {
   padding: 20px;
   font-size: 1.55rem;
   color: #bb0000;
+}
+.application__alert {
+  margin-top: 50px;
+  background-color: #c5f3ff;
+  border: 2px solid #629ead;
+  border-radius: 5px;
+}
+.application__alert-message {
+  padding: 20px;
+  font-size: 1.55rem;
+  color: rgb(0, 63, 71);
 }
 .application__reset {
   border-radius: 10px;
@@ -331,84 +342,6 @@ p {
   background-color: #f2f2f2;
   border-radius: 1rem;
   border: 1px solid #ccc;
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-  margin-top: 2rem;
-}
-.row__box > form {
-  display: flex;
-  flex-direction: column;
-}
-@media only screen and (min-width: 56.25em) {
-  .row__box > form {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-}
-.row__box {
-  display: flex;
-  flex-direction: column;
-  border-radius: 20px;
-  padding: 20px;
-  background-color: #f2f2f2;
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
-}
-@media only screen and (min-width: 56.25em) {
-  .row__box {
-    flex-direction: row;
-    width: 80%;
-    max-width: 1000px;
-  }
-}
-@media only screen and (min-width: 56.25em) {
-  .row__box-left {
-    flex: 50%;
-    padding: 2rem;
-    justify-content: start;
-  }
-}
-.row__box-right {
-  border-top: 1px solid #B8B8B8;
-  margin-top: 1rem;
-}
-@media only screen and (min-width: 56.25em) {
-  .row__box-right {
-    border-top: none;
-    flex: 30%;
-    padding: 2rem;
-    margin-top: 3rem;
-  }
-}
-.row__box-right--i {
-  margin-top: 10px;
-  width: 100%;
-}
-.row__box-right--span {
-  font-size: 1.55rem;
-}
-.row__box-label {
-  font-size: 1.45rem;
-  font-weight: bold;
-  color: #4D4D4D;
-}
-.row__box-label-check {
-  font-size: 1.2rem;
-}
-.row__box-options {
-  font-size: 1.4rem;
-  margin-bottom: 0px;
-}
-.row__input {
-  width: 100%;
-  font-size: 1.5rem;
-  padding: 1rem 1.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid #6E6E6E;
-  transition: border-color 0.2s ease;
 }
 
 /*# sourceMappingURL=styles.css.map */
