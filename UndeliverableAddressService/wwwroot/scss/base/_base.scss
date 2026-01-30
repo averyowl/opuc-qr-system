@@ -1,0 +1,54 @@
+
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+html {
+    // Defines 1rem
+    font-size: 62.5%; // 10px
+
+    @include respond(tab-land) {
+        font-size: 50.25%;
+    }
+
+    @include respond(tab-port) {
+        font-size: 60%;
+    }
+
+    @include respond(big-desktop) {
+        font-size: 69%; // lol
+    }
+}
+
+body {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+}
+
+.page {
+    width: 100%;
+    background-color: #fafbfb;
+    background-repeat: repeat;
+    background-size: contain;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+.root {
+    width: 100%;
+    background-color: $color-white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+

@@ -1,0 +1,223 @@
+.application {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    padding: 2rem;
+    margin-top: 2rem;   
+
+    h1{
+        width: 85%;
+        max-width: 600px;  
+        text-align: left;  
+        margin-bottom: 1rem;
+        border-bottom: 0.2rem solid #dadada;
+        padding-bottom: 1rem;
+        font-size: 3rem;
+        
+    }
+
+    &__header{
+
+        width: 85%;
+        max-width: 600px;  
+        text-align: left;  
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+       
+
+         h2
+        { 
+            font-weight: bold;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        p{
+            font-size: 1.6rem;
+            margin-top: 1rem;
+        }
+
+     
+
+        @include respond(tab-port) {
+
+             h2
+            { 
+                font-weight: bold;
+                font-size: 2.4rem;
+                
+            }
+            p
+            {
+                font-size: 1.9rem;
+                margin-top: 1rem;
+            }
+
+        }
+    }
+
+
+     @include respond(tab-port) {
+        width: 100%;
+    }
+
+   
+    &__confirmation{
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        width: 85%;
+        box-shadow:  0 5px 5px 0 rgba(0, 0, 0, 0.2);
+
+ 
+        @include respond(tab-port){
+            flex-direction: row;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        &-label{
+            font-size: 1.55rem;
+            font-weight: bold;
+            color: #335700;
+            
+            @include respond(tab-port)
+            {
+                font-size: 1.85rem;
+                font-weight: bold;
+               
+            }
+
+        }
+
+       &-value{
+            font-size: 1.55rem;
+
+             @include respond(tab-port)
+            {
+                padding-left: 10px;
+                font-size: 1.7rem;
+                
+                color: $color-grey;
+            }
+
+       }
+
+   
+    }
+
+
+    &__warning{
+
+        margin-top: 50px;
+        background-color: #fff3cd;
+        border: 2px solid #836f00;
+        border-radius: 5px;
+        
+        &-message{
+            
+            padding: 20px;
+            font-size: 1.55rem;
+            color: #836f00;
+        }
+            
+    }
+
+    &__danger{
+
+        margin-top: 50px;
+        background-color: #ffcdcd;
+        border: 2px solid #bb0000;
+        border-radius: 5px;
+        
+        &-message{
+            
+            padding: 20px;
+            font-size: 1.55rem;
+            color: #bb0000;;
+        }
+            
+    }
+
+    &__alert{
+
+        margin-top: 50px;
+        background-color: #c5f3ff;
+        border: 2px solid #629ead;
+        border-radius: 5px;
+        
+        &-message{
+            
+            padding: 20px;
+            font-size: 1.55rem;
+            color: rgb(0, 63, 71);;
+        }
+            
+    }
+
+
+    &__reset{
+       
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        width: 100%;
+         box-shadow:  0 5px 5px 0 rgba(0, 0, 0, 0.2);
+
+         @include respond(tab-port){
+            flex-direction: row;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        &-box{
+        @include respond(tab-port){
+            flex-direction: row;
+            width: 100%;
+            max-width: 900px;
+        }
+        }
+        &-label{
+            font-size: 1.45rem;
+            font-weight: bold;
+            color: $color-grey;
+        }
+    }
+
+    &__input {
+        width: 100%;
+        font-size: 1.55rem;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #6E6E6E;
+        transition: border-color 0.2s ease;
+       
+    }
+
+     &__content {
+        margin-top: 2rem;
+       
+        
+        &-message{
+            width: 100%;
+            padding: 2rem;
+            background-color: #f2f2f2;
+            border-radius: 1rem;
+            border: 1px solid #ccc;
+            box-shadow:  0 5px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        &-confirmation
+        {
+            width: 100%;
+            padding: 2rem;
+            margin: 0;
+            background-color: #f2f2f2;
+            border-radius: 1rem;
+            border: 1px solid #ccc;
+        }
+
+       
+    }
+     
+}

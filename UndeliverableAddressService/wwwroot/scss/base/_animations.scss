@@ -1,0 +1,18 @@
+
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* higher */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* final position */
+    }
+}
+
+.fade-down {
+    opacity: 0;
+    transform: translateY(-10px); /* start slightly above */
+    animation: fadeDown 0.55s ease-out forwards;
+}
