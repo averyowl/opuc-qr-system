@@ -66,4 +66,21 @@ app.MapRazorComponents<App>()
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
+
+// Plopped this in here for use during a demo. Will need some adjustment before release.
+app.MapGet("/qr", () => {
+    try {
+        using var qrGenerator = new QRCoder.QRCodeGenerator();
+        var qrCodeData = qrGenerator.CreateQrCode("TEST", QRCoder.QRCodeGenerator.ECCLevel.L);
+        var svgQrCode = new QRCoder.SvgQRCode(qrCodeData);
+        var svgString = svgQrCode.GetGraphic(10);
+
+        return Results.Content(svgString, "image/svg+xml");
+    }
+    catch {
+        return Results.BadRequest("Failed to generate QR code");
+    }
+});
+
+
 app.Run();

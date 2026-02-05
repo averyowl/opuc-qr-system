@@ -1,0 +1,47 @@
+﻿@page "/qr-generator"
+@using QRCoder
+@using System
+
+<h3>QRCoder Test</h3>
+
+<button @onclick="TestQRCoder">Test QRCoder</button>
+
+@if (testResult != null) {
+    <div class="mt-3">
+        <div class="alert @alertClass">
+            @testResult
+        </div>
+    </div>
+}
+
+@if (svgOutput != null) {
+    <div class="mt-3">
+        @((MarkupString)svgOutput)
+    </div>
+}
+
+@code {
+    private string? testResult;
+    private string? svgOutput;
+    private string alertClass = "alert-info";
+
+    private void TestQRCoder() {
+        try {
+            // Simple test - create QR code with minimal text
+            using var qrGenerator = new QRCodeGenerator();
+            var qrCodeData = qrGenerator.CreateQrCode("TEST", QRCodeGenerator.ECCLevel.L);
+
+            // Create SVG
+            var svgQrCode = new SvgQRCode(qrCodeData);
+            svgOutput = svgQrCode.GetGraphic(10);
+
+            testResult = "SUCCESS: QRCoder is working! QR code generated.";
+            alertClass = "alert-success";
+        }
+        catch (Exception ex) {
+            testResult = $"ERROR: {ex.GetType().Name}: {ex.Message}";
+            alertClass = "alert-danger";
+            svgOutput = null;
+        }
+    }
+}
